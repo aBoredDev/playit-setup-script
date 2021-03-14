@@ -12,6 +12,10 @@ $ bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-scrip
 ```
 And that's it!
 
+If you just want to install the tunnel host without setting up a service, use the following command:
+```bash
+$ bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --no-service
+```
 ## Viewing the tunnel host
 To view the tunnel host once it is running, use the following command:
 ```bash

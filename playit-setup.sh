@@ -28,8 +28,8 @@ case $arch in
             rm playit-armv7-latest
         elif [ -e playit-linux_64-latest ]
         then
-            printf "You appear to have downloaded the x86 binaries on an arm machine.
-            These will not work!  So we're just going to delete them for you."
+            printf "You appear to have downloaded the x86 binary on an arm machine.
+            It will not work!  So we're just going to delete it for you.\n"
             rm playit-linux_64-latest
         else
             printf "No existing binaries found\n"
@@ -38,7 +38,7 @@ case $arch in
 esac
 
 # Downloading the latest binary for the correct architecture
-printf "\n\033[04=====m\033[01mDownloading latest binary\033[00m\033[04=====\033[00m\n"
+printf "\n\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
 name=""
 case $arch in
     x86_64)
@@ -53,58 +53,88 @@ case $arch in
     ;;
 esac
 
-# Install screen so that the user can view the output of the playit host
-# we use screen because tmux has caused issues with playit for me in the past
-printf "\n\033[04=====m\033[01mInstalling screen\033[00m\033[04=====\033[00m\n"
-sudo apt install screen
+# Check to see if the user has specifed that they don't want it installed as a service
+case $1 in
+    --no-service)
+        printf "\n\n\033[04========m\033[01mStarting playit\033[00m\033[04========\033[00m\n\n"
+        printf "Opening tunnel host
+        To exit the tunnel host, use \033[01mCtrl+c\033[00m.  If you need to copy the claim URL,
+        use \033[01mCtrl+Insert\033[00m (or \033[01mCtrl+fn+Insert\033[00m, if your insert key is
+        shared with your Delete key)"
 
-playit_path=$( pwd )
+        printf "\nOnce you have read the above, type 'yes' to start the tunnel host\n"
+        read confirm
+        until [ $confirm = 'yes' ]
+        do
+            printf "Starting tunnel host
+            To exit the tunnel host, use \033[01mCtrl+c\033[00m.  If you need to copy the claim URL,
+            use \033[01mCtrl+Insert\033[00m (or \033[01mCtrl+fn+Insert\033[00m, if your insert key is
+            shared with your Delete key)\n
+            To start the tunnel host again at any time, run './$name'"
 
-printf "\nInstalling service file\n"
-printf "[Unit]
-Description=playit.gg tunnel host
-After=network-online.target
+            printf "\nOnce you have read the above, type 'yes' to start the tunnel host\n"
+            read confirm
+        done
 
-[Service]
-Type=forking
-Restart=no
-User=$USER
-WorkingDirectory=$playit_path
-ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
-ExecStop=/usr/bin/screen -S playit.gg -X quit
+        ./$name
+    ;;
+    *)
+        printf "\n\n\033[04========m\033[01mInstalling playit as a service\033[00m\033[04========\033[00m\n\n"
+        # Install screen so that the user can view the output of the playit host
+        # we use screen because tmux has caused issues with playit for me in the past
+        printf "\n\033[04=====m\033[01mInstalling screen\033[00m\033[04=====\033[00m\n"
+        sudo apt install screen
 
-[Install]
-WantedBy=multi-user.target\n" >> ./playit.service
+        playit_path=$( pwd )
 
-sudo mv ./playit.service /etc/systemd/system/playit.service
+        printf "\nInstalling service file\n"
+        printf "[Unit]
+        Description=playit.gg tunnel host
+        After=network-online.target
 
-sudo chown root:root /etc/systemd/system/playit.service
+        [Service]
+        Type=forking
+        Restart=no
+        User=$USER
+        WorkingDirectory=$playit_path
+        ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
+        ExecStop=/usr/bin/screen -S playit.gg -X quit
 
-# Reload systemctl, then enable and start the service
-printf "\n\033[04=====m\033[01mReloading systemctl and enabling service\033[00m\033[04=====\033[00m\n"
-sudo systemctl daemon-reload
-sudo systemctl enable playit
-sudo systemctl start playit
+        [Install]
+        WantedBy=multi-user.target\n" >> ./playit.service
 
-# Open screen to show the user the tunnel host, and make sure they know how to exit
-printf "\n\n\nOpening tunnel host now.
-To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.  Doing so will terminate
-the tunnel host.  To exit to the terminal, use \033[01mCtrl+a d\033[00m\n"
+        sudo mv ./playit.service /etc/systemd/system/playit.service
 
-printf "\nOnce you have read the above, type 'yes' to view the tunnel host\n"
-read confirm
-until [ $confirm = 'yes' ]
-do
-    printf '\nOpening tunnel host now.\n'
-    printf 'To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.
-    Doing so will terminate the tunnel host.  To exit to the terminal, use
-    \033[01mCtrl+a d\033[00m\n'
+        sudo chown root:root /etc/systemd/system/playit.service
 
-    printf "Once you have read the above, type 'yes' to view the tunnel host"
-    read confirm
-done
+        # Reload systemctl, then enable and start the service
+        printf "\n\033[04=====m\033[01mReloading systemctl and enabling service\033[00m\033[04=====\033[00m\n"
+        sudo systemctl daemon-reload
+        sudo systemctl enable playit
+        sudo systemctl start playit
 
-screen -r playit.gg
+        # Open screen to show the user the tunnel host, and make sure they know how to exit
+        printf "\n\n\nOpening tunnel host now.
+        To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.  Doing so will terminate
+        the tunnel host.  To exit to the terminal, use \033[01mCtrl+a d\033[00m\n"
 
-printf "\nTo view the tunnel host at any time, use 'screen -r playit.gg', and
-\033[01mCtrl+a d\033[00m to return to the terminal\n"
+        printf "\nOnce you have read the above, type 'yes' to view the tunnel host\n"
+        read confirm
+        until [ $confirm = 'yes' ]
+        do
+            printf '\nOpening tunnel host now.\n'
+            printf 'To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.
+            Doing so will terminate the tunnel host.  To exit to the terminal, use
+            \033[01mCtrl+a d\033[00m\n'
+
+            printf "Once you have read the above, type 'yes' to view the tunnel host"
+            read confirm
+        done
+
+        screen -r playit.gg
+
+        printf "\nTo view the tunnel host at any time, use 'screen -r playit.gg', and
+        \033[01mCtrl+a d\033[00m to return to the terminal\n"
+    ;;
+else
+
