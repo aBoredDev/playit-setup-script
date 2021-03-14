@@ -136,5 +136,4 @@ case $1 in
         printf "\nTo view the tunnel host at any time, use 'screen -r playit.gg', and
         \033[01mCtrl+a d\033[00m to return to the terminal\n"
     ;;
-else
-
+esac
