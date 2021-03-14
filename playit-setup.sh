@@ -25,7 +25,7 @@ After=network-online.target
 [Service]
 Type=forking
 Restart=no
-User=$user
+User=$USER
 WorkingDirectory=$playit_path
 ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/playit-linux_64-latest
 ExecStop=/usr/bin/screen -S playit.gg -X quit
