@@ -1,0 +1,24 @@
+# == Example service file for playit.gg ==
+# If you want to use this, you need to replace anything prefixed with a $
+# with what is specified in the comment
+[Unit]
+Description=playit.gg tunnel host
+After=network-online.target
+
+[Service]
+Type=forking
+Restart=no
+# Replace $USER with the username of the user you want running the playit tunnel host.
+User=$USER
+# Not strictly nessecary, but this should be the full path to the directory containing
+# the playit binary.  If you don't want to specify this, just remove the line.
+WorkingDirectory=$playit_path
+# $playit_path should be the full path to the directory containing the playit binary.
+# ./ and ~/ do NOT work in service files.  It must me the full path from the root of your drive.
+# $name should be the full name of the actual playit program.
+# Example: playit-linux_64-0.2.0-beta-rc-3
+ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
+ExecStop=/usr/bin/screen -S playit.gg -X quit
+
+[Install]
+WantedBy=multi-user.target
