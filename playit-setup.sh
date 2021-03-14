@@ -13,7 +13,7 @@ arch=$( uname -m )
 printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
 case $arch in
     x86_64)
-        if [ -e playit-linux_64-latest]
+        if [ -e playit-linux_64-latest ]
         then
             printf "Found existing playit binary, deleting...\n"
             rm playit-linux_64-latest
@@ -26,13 +26,14 @@ case $arch in
         then
             printf "Found existing playit binary, deleting...\n"
             rm playit-armv7-latest
-        elif [ -e playit-linux_64-latest ]
+        else
+            printf "No existing binaries found\n"
+        fi
+        if [ -e playit-linux_64-latest ]
         then
             printf "You appear to have downloaded the x86 binary on an arm machine.
             It will not work!  So we're just going to delete it for you.\n"
             rm playit-linux_64-latest
-        else
-            printf "No existing binaries found\n"
         fi
     ;;
 esac
