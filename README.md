@@ -11,18 +11,18 @@ Even if you don't want it as a service, this script automates installation so th
 ### Debian/Ubuntu, Raspberry Pi (Raspbian)
 The script doesn't need to be run as root, it will elevate permissions when it needs to.
 ```bash
-$ bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh)
+bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh)
 ```
 And that's it!
 
 If you just want to install the tunnel host without setting up a service, use the following command:
 ```bash
-$ bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --no-service
+bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --no-service
 ```
 ## Viewing the tunnel host
 To view the tunnel host once it is running as a service, use the following command:
 ```bash
-$ screen -r playit
+screen -r playit
 ```
 To exit the tunnel host and return to the terminal session, use __Ctrl+A D__.  This will detach you from the screen session and return you to your previous terminal session.  If you use Ctrl+C, it will terminate the tunnel host.  If this happens, simply restart the tunnel host using `systemctl start playit`.
 
