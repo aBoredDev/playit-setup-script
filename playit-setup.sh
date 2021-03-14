@@ -31,7 +31,7 @@ ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/playit-linux_64-latest
 ExecStop=/usr/bin/screen -S playit.gg -X quit
 
 [Install]
-WantedBy=multi-user.target" >> ./playit.service
+WantedBy=multi-user.target" >> ./playit.service\n"
 
 sudo mv ./playit.service /etc/systemd/system/playit.service
 
