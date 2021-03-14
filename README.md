@@ -2,7 +2,7 @@
 A script to set up the [playit.gg](https://playit.gg/) tunnel host and install it as a service on Linux.  But why would you even want that?
 - If playit is running as a systemd service, you don't need to worry about restarting it if your machine ever shuts down,  It will start automatically whenever your machine starts up.
 - It's much quicker to restart it when it's a service, because all you need is one command, rather than two or three.
-- Single command installers are nice
+- Single command installers are nice, particularly when you're dealing with a service.
 
 At the moment, this script is only for x86 Linux machines.  It will NOT work on a Raspberry Pi, because that is an ARM machine and requires a separate binary.  I do plan on adding support for ARM in the future.
 
@@ -31,7 +31,7 @@ To manage any service on Linux under systemd, you use the `systemctl` command.
 For more information on the systemctl command, see [this article](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units) on DigitalOcean, or the [man page](https://www.man7.org/linux/man-pages/man1/systemctl.1.html).
 
 ## Disclaimer
-I am not associated with the playit.gg in any way beyond that of a user.  This script is un-offcial.
+I am not associated with playit.gg in any way beyond being a user.  This script is un-offcial.
 
 ---
 
