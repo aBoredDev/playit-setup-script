@@ -35,7 +35,7 @@ WantedBy=multi-user.target" >> ./playit.service
 
 sudo mv ./playit.service /etc/systemd/system/playit.service
 
-sudo chmod root:root /etc/systemd/system/playit.service
+sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
 echo "Reloading systemctl and enabling service"
