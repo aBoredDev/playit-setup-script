@@ -4,11 +4,9 @@ A script to set up the [playit.gg](https://playit.gg/) tunnel host and install i
 - It's much quicker to restart it when it's a service, because all you need is one command, rather than two or three.
 - Single command installers are nice, particularly when you're dealing with a service.
 
-At the moment, this script is only for x86 Linux machines.  It will NOT work on a Raspberry Pi, because that is an ARM machine and requires a separate binary.  I do plan on adding support for ARM in the future.
-
 ## Usage
-### Ubuntu, Debian
-The script doesn't need to be run as root, it will elevate permissions when it needs to
+### Debin/Ubuntu, Raspberry Pi (Raspbian)
+The script doesn't need to be run as root, it will elevate permissions when it needs to.
 ```bash
 $ bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh)
 ```
