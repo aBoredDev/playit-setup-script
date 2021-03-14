@@ -12,7 +12,7 @@ chmod +x ./playit-linux_64-latest
 
 # Install screen so that the user can view the output of the playit host
 # we use screen because tmux has caused issues with playit for me in the past
-echo "\nInstalling screen"
+printf "\nInstalling screen"
 sudo apt install screen
 
 playit_path=$( pwd )
@@ -38,7 +38,7 @@ sudo mv ./playit.service /etc/systemd/system/playit.service
 sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
-echo "\nReloading systemctl and enabling service"
+printf "\nReloading systemctl and enabling service"
 sudo systemctl daemon-reload
 sudo systemctl enable playit
 sudo systemctl start playit
