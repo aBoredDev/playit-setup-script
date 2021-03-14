@@ -17,7 +17,7 @@ sudo apt install screen
 
 playit_path=$( pwd )
 
-printf "Installing service file\n"
+printf "\nInstalling service file\n"
 printf "[Unit]
 Description=playit.gg tunnel host
 After=network-online.target
@@ -38,7 +38,7 @@ sudo mv ./playit.service /etc/systemd/system/playit.service
 sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
-printf "Reloading systemctl and enabling service\n"
+printf "\nReloading systemctl and enabling service\n"
 sudo systemctl daemon-reload
 sudo systemctl enable playit
 sudo systemctl start playit
@@ -48,9 +48,9 @@ printf "\n\n\nOpening tunnel host now.
 To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.  Doing so will terminate
 the tunnel host.  To exit to the terminal, use \033[01mCtrl+a d\033[00m\n"
 
-printf "\nOnce you have read the above, type 'yes' to view the tunnel host"
+printf "\nOnce you have read the above, type 'yes' to view the tunnel host\n"
 read confirm
-until [ $confirm = 'yes']
+until [ $confirm = 'yes' ]
 do
     printf '\nOpening tunnel host now.\n'
     printf 'To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.
