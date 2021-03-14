@@ -39,9 +39,9 @@ sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
 echo "Reloading systemctl and enabling service"
-systemctl daemon-reload
-systemctl enable playit
-systemctl start playit
+sudo systemctl daemon-reload
+sudo systemctl enable playit
+sudo systemctl start playit
 
 # Open screen to show the user the tunnel host, and make sure they know how to exit
 printf 'Opening tunnel host now.\n'
