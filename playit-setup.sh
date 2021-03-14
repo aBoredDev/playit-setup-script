@@ -12,7 +12,7 @@ chmod +x ./playit-linux_64-latest
 
 # Install screen so that the user can view the output of the playit host
 # we use screen because tmux has caused issues with playit for me in the past
-echo "Installing screen"
+echo "\nInstalling screen"
 sudo apt install screen
 
 playit_path=$( pwd )
@@ -38,22 +38,21 @@ sudo mv ./playit.service /etc/systemd/system/playit.service
 sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
-echo "Reloading systemctl and enabling service"
+echo "\nReloading systemctl and enabling service"
 sudo systemctl daemon-reload
 sudo systemctl enable playit
 sudo systemctl start playit
 
 # Open screen to show the user the tunnel host, and make sure they know how to exit
-printf 'Opening tunnel host now.\n'
-printf 'To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.
-Doing so will terminate the tunnel host.  To exit to the terminal, use
-\033[01mCtrl+a d\033[00m\n'
+printf "\n\n\nOpening tunnel host now.
+To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.  Doing so will terminate
+the tunnel host.  To exit to the terminal, use \033[01mCtrl+a d\033[00m\n"
 
-printf "Once you have read the above, type 'yes' to view the tunnel host"
+printf "\nOnce you have read the above, type 'yes' to view the tunnel host"
 read confirm
 until [ $confirm = 'yes']
 do
-    printf 'Opening tunnel host now.\n'
+    printf '\nOpening tunnel host now.\n'
     printf 'To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.
     Doing so will terminate the tunnel host.  To exit to the terminal, use
     \033[01mCtrl+a d\033[00m\n'
