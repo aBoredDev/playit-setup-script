@@ -38,7 +38,7 @@ case $arch in
 esac
 
 # Downloading the latest binary for the correct architecture
-printf "\n\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
+printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
 name=""
 case $arch in
     x86_64)
