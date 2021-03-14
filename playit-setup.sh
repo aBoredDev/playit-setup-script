@@ -18,7 +18,7 @@ sudo apt install screen
 playit_path=$( pwd )
 
 echo "Installing service file"
-sudo printf "[Unit]
+printf "[Unit]
 Description=playit.gg tunnel host
 After=network-online.target
 
@@ -31,7 +31,11 @@ ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/playit-linux_64-latest
 ExecStop=/usr/bin/screen -S playit.gg -X quit
 
 [Install]
-WantedBy=multi-user.target" >> /etc/systemd/system/playit.service
+WantedBy=multi-user.target" >> ./playit.service
+
+sudo mv ./playit.service /etc/systemd/system/playit.service
+
+sudo chmod root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
 echo "Reloading systemctl and enabling service"
