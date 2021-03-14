@@ -6,13 +6,56 @@
 # service so that it will run in the background and start automatically
 # whenever the computer is started
 
-# Download the latest playit.gg binary for linux and make it executable
-wget https://playit.gg/downloads/playit-linux_64-latest
-chmod +x ./playit-linux_64-latest
+# Check the device's architechture
+arch=$( uname -m )
+
+# Check for an existing playit binary in the current directory, and delete it if one exists
+printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
+case $arch in
+    x86_64)
+        if [ -e playit-linux_64-latest]
+        then
+            printf "Found existing playit binary, deleting...\n"
+            rm playit-linux_64-latest
+        else
+            printf "No existing binaries found\n"
+        fi
+    ;;
+    armv7l)
+        if [ -e playit-armv7-latest ]
+        then
+            printf "Found existing playit binary, deleting...\n"
+            rm playit-armv7-latest
+        elif [ -e playit-linux_64-latest ]
+        then
+            printf "You appear to have downloaded the x86 binaries on an arm machine.
+            These will not work!  So we're just going to delete them for you."
+            rm playit-linux_64-latest
+        else
+            printf "No existing binaries found\n"
+        fi
+    ;;
+esac
+
+# Downloading the latest binary for the correct architecture
+printf "\n\033[04=====m\033[01mDownloading latest binary\033[00m\033[04=====\033[00m\n"
+name=""
+case $arch in
+    x86_64)
+        wget https://playit.gg/downloads/playit-linux_64-latest
+        chmod +x ./playit-linux_64-latest
+        name='playit-linux_64-latest'
+    ;;
+    armv7l)
+        wget https://playit.gg/downloads/playit-armv7-latest
+        chmod +x ./playit-armv7-latest
+        name='playit-armv7-latest'
+    ;;
+esac
 
 # Install screen so that the user can view the output of the playit host
 # we use screen because tmux has caused issues with playit for me in the past
-printf "\nInstalling screen\n"
+printf "\n\033[04=====m\033[01mInstalling screen\033[00m\033[04=====\033[00m\n"
 sudo apt install screen
 
 playit_path=$( pwd )
@@ -27,7 +70,7 @@ Type=forking
 Restart=no
 User=$USER
 WorkingDirectory=$playit_path
-ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/playit-linux_64-latest
+ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
 ExecStop=/usr/bin/screen -S playit.gg -X quit
 
 [Install]
@@ -38,7 +81,7 @@ sudo mv ./playit.service /etc/systemd/system/playit.service
 sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
-printf "\nReloading systemctl and enabling service\n"
+printf "\n\033[04=====m\033[01mReloading systemctl and enabling service\033[00m\033[04=====\033[00m\n"
 sudo systemctl daemon-reload
 sudo systemctl enable playit
 sudo systemctl start playit
