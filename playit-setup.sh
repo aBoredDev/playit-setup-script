@@ -18,7 +18,7 @@ sudo apt install screen
 playit_path=$( pwd )
 
 echo "Installing service file"
-sudo bash -c printf "[Unit]
+sudo printf "[Unit]
 Description=playit.gg tunnel host
 After=network-online.target
 
