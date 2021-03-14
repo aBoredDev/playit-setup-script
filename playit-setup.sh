@@ -12,12 +12,12 @@ chmod +x ./playit-linux_64-latest
 
 # Install screen so that the user can view the output of the playit host
 # we use screen because tmux has caused issues with playit for me in the past
-printf "\nInstalling screen"
+printf "\nInstalling screen\n"
 sudo apt install screen
 
 playit_path=$( pwd )
 
-echo "Installing service file"
+printf "Installing service file\n"
 printf "[Unit]
 Description=playit.gg tunnel host
 After=network-online.target
@@ -38,7 +38,7 @@ sudo mv ./playit.service /etc/systemd/system/playit.service
 sudo chown root:root /etc/systemd/system/playit.service
 
 # Reload systemctl, then enable and start the service
-printf "\nReloading systemctl and enabling service"
+printf "Reloading systemctl and enabling service\n"
 sudo systemctl daemon-reload
 sudo systemctl enable playit
 sudo systemctl start playit
