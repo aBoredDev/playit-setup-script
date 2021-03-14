@@ -58,19 +58,20 @@ case $1 in
     --no-service)
         printf "\n\n\033[04========m\033[01mStarting playit\033[00m\033[04========\033[00m\n\n"
         printf "Opening tunnel host
-        To exit the tunnel host, use \033[01mCtrl+c\033[00m.  If you need to copy the claim URL,
-        use \033[01mCtrl+Insert\033[00m (or \033[01mCtrl+fn+Insert\033[00m, if your insert key is
-        shared with your Delete key)"
+To exit the tunnel host, use \033[01mCtrl+c\033[00m.  If you need to copy the claim URL,
+use \033[01mCtrl+Insert\033[00m (or \033[01mCtrl+fn+Insert\033[00m, if your insert key is
+shared with your Delete key)
+To start the tunnel host again at any time, run './$name'\n"
 
         printf "\nOnce you have read the above, type 'yes' to start the tunnel host\n"
         read confirm
         until [ $confirm = 'yes' ]
         do
             printf "Starting tunnel host
-            To exit the tunnel host, use \033[01mCtrl+c\033[00m.  If you need to copy the claim URL,
-            use \033[01mCtrl+Insert\033[00m (or \033[01mCtrl+fn+Insert\033[00m, if your insert key is
-            shared with your Delete key)\n
-            To start the tunnel host again at any time, run './$name'"
+To exit the tunnel host, use \033[01mCtrl+c\033[00m.  If you need to copy the claim URL,
+use \033[01mCtrl+Insert\033[00m (or \033[01mCtrl+fn+Insert\033[00m, if your insert key is
+shared with your Delete key)\n
+To start the tunnel host again at any time, run './$name'\n"
 
             printf "\nOnce you have read the above, type 'yes' to start the tunnel host\n"
             read confirm
