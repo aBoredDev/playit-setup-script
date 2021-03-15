@@ -5,7 +5,7 @@ A script to set up the [playit.gg](https://playit.gg/) tunnel host and install i
 - Single command installers are nice, particularly when you're dealing with a service.
 - Running anything as a service means that you don't have to have a terminal window open 24/7.  It also means that you can access your server via SSH, view or manage the tunnel, and it will remain running after you close your SSH session.  (That is actually the primary reason I run it as a service.)
 
-Even if you don't want it as a service, this script automates installation so that 
+Even if you don't want it as a service, this script automates installation and ensures that playit is executable, all with a single command!
 
 ## Usage
 ### Debian/Ubuntu, Raspberry Pi (Raspbian)
@@ -18,6 +18,10 @@ And that's it!
 If you just want to install the tunnel host without setting up a service, use the following command:
 ```bash
 bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --no-service
+```
+And if you only want to set up a systemd service for playit, you can use
+```bash
+bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --service-only
 ```
 ## Viewing the tunnel host
 To view the tunnel host once it is running as a service, use the following command:

@@ -9,48 +9,77 @@
 # Check the device's architechture
 arch=$( uname -m )
 
-# Check for an existing playit binary in the current directory, and delete it if one exists
-printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
-case $arch in
-    x86_64)
-        if [ -e playit-linux_64-latest ]
-        then
-            printf "Found existing playit binary, deleting...\n"
-            rm playit-linux_64-latest
-        else
-            printf "No existing binaries found\n"
-        fi
-    ;;
-    armv7l)
-        if [ -e playit-armv7-latest ]
-        then
-            printf "Found existing playit binary, deleting...\n"
-            rm playit-armv7-latest
-        else
-            printf "No existing binaries found\n"
-        fi
-        if [ -e playit-linux_64-latest ]
-        then
-            printf "You appear to have downloaded the x86 binary on an arm machine.
-            It will not work!  So we're just going to delete it for you.\n"
-            rm playit-linux_64-latest
-        fi
-    ;;
-esac
-
-# Downloading the latest binary for the correct architecture
-printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
 name=""
-case $arch in
-    x86_64)
-        wget https://playit.gg/downloads/playit-linux_64-latest
-        chmod +x ./playit-linux_64-latest
-        name='playit-linux_64-latest'
+
+case $1 in
+    --service-only)
+        printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
+        # Look for any files in the current directory which start with 'playit', and strip the ./ off the front
+        name=$( find . -regex .*/playit.* )
+        name=$( basename -a $name )
+        
+        # Allow the user to select a binary or specifiy a different one
+        printf "Possible existing binaries found.  Please select from the following list, or choose Other to specify a diiferent binary:\n"
+        select FILE in $name Other
+        do
+            case $FILE in
+                Other)
+                    printf "Enter the name of your playit binary\n"
+                    read name
+                    printf "Using $name\n"
+                ;;
+                *)
+                    printf "Using $FILE\n"
+                    name=$FILE
+                ;;
+            esac
+            break   
+        done
     ;;
-    armv7l)
-        wget https://playit.gg/downloads/playit-armv7-latest
-        chmod +x ./playit-armv7-latest
-        name='playit-armv7-latest'
+    *)
+        # Check for an existing playit binary in the current directory, and delete it if one exists
+        printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
+        case $arch in
+            x86_64)
+                if [ -e playit-linux_64-latest ]
+                then
+                    printf "Found existing playit binary, deleting...\n"
+                    rm playit-linux_64-latest
+                else
+                    printf "No existing binaries found\n"
+                fi
+            ;;
+            armv7l)
+                if [ -e playit-armv7-latest ]
+                then
+                    printf "Found existing playit binary, deleting...\n"
+                    rm playit-armv7-latest
+                else
+                    printf "No existing binaries found\n"
+                fi
+                if [ -e playit-linux_64-latest ]
+                then
+                    printf "You appear to have downloaded the x86 binary on an arm machine.
+It will not work!  So we're just going to delete it for you.\n"
+                    rm playit-linux_64-latest
+                fi
+            ;;
+        esac
+    
+        # Downloading the latest binary for the correct architecture
+        printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
+        case $arch in
+            x86_64)
+                wget https://playit.gg/downloads/playit-linux_64-latest
+                chmod +x ./playit-linux_64-latest
+                name='playit-linux_64-latest'
+            ;;
+            armv7l)
+                wget https://playit.gg/downloads/playit-armv7-latest
+                chmod +x ./playit-armv7-latest
+                name='playit-armv7-latest'
+            ;;
+        esac
     ;;
 esac
 
@@ -90,20 +119,21 @@ To start the tunnel host again at any time, run './$name'\n"
         playit_path=$( pwd )
 
         printf "\nInstalling service file\n"
+        # I know this looks messy, but if I don't do it this way the service file ends up intended
         printf "[Unit]
-        Description=playit.gg tunnel host
-        After=network-online.target
+Description=playit.gg tunnel host
+After=network-online.target
 
-        [Service]
-        Type=forking
-        Restart=no
-        User=$USER
-        WorkingDirectory=$playit_path
-        ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
-        ExecStop=/usr/bin/screen -S playit.gg -X quit
+[Service]
+Type=forking
+Restart=no
+User=$USER
+WorkingDirectory=$playit_path
+ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
+ExecStop=/usr/bin/screen -S playit.gg -X quit
 
-        [Install]
-        WantedBy=multi-user.target\n" >> ./playit.service
+[Install]
+WantedBy=multi-user.target\n" >> ./playit.service
 
         sudo mv ./playit.service /etc/systemd/system/playit.service
 
@@ -117,8 +147,8 @@ To start the tunnel host again at any time, run './$name'\n"
 
         # Open screen to show the user the tunnel host, and make sure they know how to exit
         printf "\n\n\nOpening tunnel host now.
-        To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.  Doing so will terminate
-        the tunnel host.  To exit to the terminal, use \033[01mCtrl+a d\033[00m\n"
+To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.  Doing so will terminate
+the tunnel host.  To exit to the terminal, use \033[01mCtrl+a d\033[00m\n"
 
         printf "\nOnce you have read the above, type 'yes' to view the tunnel host\n"
         read confirm
@@ -126,8 +156,8 @@ To start the tunnel host again at any time, run './$name'\n"
         do
             printf '\nOpening tunnel host now.\n'
             printf 'To exit the tunnel host, do \033[01m\033[04mNOT\033[00m hit Ctrl+c.
-            Doing so will terminate the tunnel host.  To exit to the terminal, use
-            \033[01mCtrl+a d\033[00m\n'
+Doing so will terminate the tunnel host.  To exit to the terminal, use
+\033[01mCtrl+a d\033[00m\n'
 
             printf "Once you have read the above, type 'yes' to view the tunnel host"
             read confirm
@@ -136,6 +166,6 @@ To start the tunnel host again at any time, run './$name'\n"
         screen -r playit.gg
 
         printf "\nTo view the tunnel host at any time, use 'screen -r playit.gg', and
-        \033[01mCtrl+a d\033[00m to return to the terminal\n"
+\033[01mCtrl+a d\033[00m to return to the terminal\n"
     ;;
 esac
