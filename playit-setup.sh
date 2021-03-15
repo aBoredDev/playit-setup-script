@@ -38,6 +38,8 @@ case $1 in
     ;;
     *)
         # Check for an existing playit binary in the current directory, and delete it if one exists
+        # We do this because wget doesn't overwrite files when downloading, instead it appends a number to the filename,
+        # which might cause the verion to not actually be the latest version.
         printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
         case $arch in
             x86_64)
