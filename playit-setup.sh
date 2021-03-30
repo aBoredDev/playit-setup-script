@@ -137,7 +137,7 @@ ExecStop=/usr/bin/screen -S playit.gg -X quit
 [Install]
 WantedBy=multi-user.target\n" > ./playit.service
 
-        sudo mv ./playit.service /etc/systemd/system/playit.service
+        sudo mv -f ./playit.service /etc/systemd/system/playit.service
 
         sudo chown root:root /etc/systemd/system/playit.service
 
