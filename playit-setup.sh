@@ -72,14 +72,14 @@ It will not work!  So we're just going to delete it for you.\n"
         printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
         case $arch in
             x86_64)
-                wget https://playit.gg/downloads/playit-linux_64-latest
-                chmod +x ./playit-linux_64-latest
-                name='playit-linux_64-latest'
+                wget https://playit.gg/downloads/playit-linux_64-0.3.7
+                chmod +x ./playit-linux_64-0.3.7
+                name='playit-linux_64-0.3.7'
             ;;
             armv7l)
-                wget https://playit.gg/downloads/playit-armv7-latest
-                chmod +x ./playit-armv7-latest
-                name='playit-armv7-latest'
+                wget https://playit.gg/downloads/playit-armv7-0.3.7
+                chmod +x ./playit-armv7-0.3.7
+                name='playit-armv7-0.3.7'
             ;;
         esac
     ;;
@@ -135,7 +135,7 @@ ExecStart=/usr/bin/screen -d -m -S playit.gg $playit_path/$name
 ExecStop=/usr/bin/screen -S playit.gg -X quit
 
 [Install]
-WantedBy=multi-user.target\n" >> ./playit.service
+WantedBy=multi-user.target\n" > ./playit.service
 
         sudo mv ./playit.service /etc/systemd/system/playit.service
 
