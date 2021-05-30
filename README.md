@@ -40,7 +40,7 @@ To manage any service on Linux under systemd, you use the `systemctl` command.
 For more information on the systemctl command, see [this article](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units) on DigitalOcean, or the [man page](https://www.man7.org/linux/man-pages/man1/systemctl.1.html).
 
 ## Disclaimer
-I am not associated with playit.gg in any way beyond being a user.  This script is un-offcial.
+I am not associated with playit.gg in any way beyond being a user.  This script is unoffcial.
 
 ---
 
