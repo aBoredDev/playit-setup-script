@@ -122,7 +122,7 @@ To start the tunnel host again at any time, run './$name'\n"
         playit_path=$( pwd )
 
         printf "\nInstalling service file\n"
-        # I know this looks messy, but if I don't do it this way the service file ends up intended
+        # I know this looks messy, but if I don't do it this way the service file ends up indented
         printf "[Unit]
 Description=playit.gg tunnel host
 After=network-online.target
