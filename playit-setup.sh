@@ -1,5 +1,5 @@
 #!/bin/bash
-# Playit.gg setup script for Linux (x86 ONLY - arm uses a different binary)
+# Playit.gg setup script for Linux (x86 and arm)
 # Copyright(c) 2021 aBoredDev
 
 # This script downloads the latest playit.gg binary and installs it up as a
