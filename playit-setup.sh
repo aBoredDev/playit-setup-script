@@ -40,6 +40,7 @@ case $1 in
         # Check for an existing playit binary in the current directory, and delete it if one exists
         # We do this because wget doesn't overwrite files when downloading, instead it appends a number to the filename,
         # which might cause the verion to not actually be the latest version.
+        # TODO: Update this
         printf "\n\033[04=====m\033[01mChecking for existing playit.gg binaries\033[00m\033[04=====\033[00m\n"
         case $arch in
             x86_64)
@@ -72,14 +73,14 @@ It will not work!  So we're just going to delete it for you.\n"
         printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
         case $arch in
             x86_64)
-                wget https://playit.gg/downloads/playit-linux_64-0.3.17
-                chmod +x ./playit-linux_64-0.3.17
-                name='playit-linux_64-0.3.17'
+                wget https://playit.gg/downloads/playit-linux_64-0.4.3-rc2
+                chmod +x ./playit-linux_64-0.4.3-rc2
+                name='playit-linux_64-0.4.3-rc2'
             ;;
             armv7l)
-                wget https://playit.gg/downloads/playit-armv7-0.3.7
-                chmod +x ./playit-armv7-0.3.7
-                name='playit-armv7-0.3.7'
+                wget https://playit.gg/downloads/playit-armv7-0.4.3-rc2
+                chmod +x ./playit-armv7-0.4.3-rc2
+                name='playit-armv7-0.4.3-rc2'
             ;;
         esac
     ;;
