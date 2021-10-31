@@ -78,9 +78,9 @@ It will not work!  So we're just going to delete it for you.\n"
                 name='playit-linux_64-0.4.3-rc2'
             ;;
             armv7l)
-                wget https://playit.gg/downloads/playit-armv7-0.4.3-rc2
-                chmod +x ./playit-armv7-0.4.3-rc2
-                name='playit-armv7-0.4.3-rc2'
+                wget https://playit.gg/downloads/playit-armv7-0.4.6
+                chmod +x ./playit-armv7-0.4.6
+                name='playit-armv7-0.4.6'
             ;;
         esac
     ;;
