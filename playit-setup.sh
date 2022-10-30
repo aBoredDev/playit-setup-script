@@ -9,7 +9,7 @@
 # Check the device's architechture
 arch=$( uname -m )
 # Check the device's OS, because we can use apt for debian/ubuntu
-distro=$( grep --colour=never -Po '(?<=^ID-LIKE=).*$' /etc/os-release )
+distro=$( grep --colour=never -Po '(?<=^ID_LIKE=).*$' /etc/os-release )
 
 name=""
 playit_path=""
