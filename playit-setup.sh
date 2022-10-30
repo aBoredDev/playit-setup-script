@@ -8,8 +8,11 @@
 
 # Check the device's architechture
 arch=$( uname -m )
+# Check the device's OS, because we can use apt for debian/ubuntu
+distro=$( grep --colour=never -Po '(?<=^ID=).*$' /etc/os-release )
 
 name=""
+playit_path=""
 
 case $1 in
     --service-only)
@@ -20,17 +23,19 @@ case $1 in
         
         # Allow the user to select a binary or specifiy a different one
         printf "Possible existing binaries found.  Please select from the following list, or choose Other to specify a diiferent binary:\n"
-        select FILE in $name Other
+        select FILE in $name Other 
         do
             case $FILE in
                 Other)
                     printf "Enter the name of your playit binary\n"
                     read name
                     printf "Using $name\n"
+                    playit_path=$( pwd )
                 ;;
                 *)
                     printf "Using $FILE\n"
                     name=$FILE
+                    playit_path=$( pwd )
                 ;;
             esac
             break   
@@ -68,19 +73,34 @@ It will not work!  So we're just going to delete it for you.\n"
                 fi
             ;;
         esac
-    
-        # Downloading the latest binary for the correct architecture
-        printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
-        case $arch in
-            x86_64)
-                wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3
-                chmod +x ./playit-0.9.3
-                name='playit-0.9.3'
+
+        # Check what distro we're on
+        case $distro in
+            ubuntu|debian) # Get the package if we're on debian/ubuntu
+                # For Debian & Ubuntu based systems
+                curl -SsL https://playit-cloud.github.io/ppa/key.gpg | sudo apt-key add -
+                sudo curl -SsL -o /etc/apt/sources.list.d/playit-cloud.list https://playit-cloud.github.io/ppa/playit-cloud.list
+                sudo apt update
+                sudo apt install playit
+                playit_path="/opt/playit"
+                name="playit"
             ;;
-            armv7l)
-                wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3-armv7
-                chmod +x ./playit-0.9.3-armv7
-                name='playit-0.9.3-armv7'
+            *) # Download the latest binary for the correct architecture if not on debian/ubuntu
+                printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
+                case $arch in
+                    x86_64)
+                        wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3
+                        chmod +x ./playit-0.9.3
+                        name='playit-0.9.3'
+                        playit_path=$( pwd )
+                    ;;
+                    armv7l)
+                        wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3-armv7
+                        chmod +x ./playit-0.9.3-armv7
+                        name='playit-0.9.3-armv7'
+                        playit_path=$( pwd )
+                    ;;
+                esac
             ;;
         esac
     ;;
@@ -118,8 +138,6 @@ To start the tunnel host again at any time, run './$name'\n"
         # we use screen because tmux has caused issues with playit for me in the past
         printf "\n\033[04=====m\033[01mInstalling screen\033[00m\033[04=====\033[00m\n"
         sudo apt install screen
-
-        playit_path=$( pwd )
 
         printf "\nInstalling service file\n"
         # I know this looks messy, but if I don't do it this way the service file ends up indented
