@@ -9,7 +9,7 @@
 # Check the device's architechture
 arch=$( uname -m )
 # Check the device's OS, because we can use apt for debian/ubuntu
-distro=$( grep --colour=never -Po '(?<=^ID=).*$' /etc/os-release )
+distro=$( grep --colour=never -Po '(?<=^ID-LIKE=).*$' /etc/os-release )
 
 name=""
 playit_path=""
@@ -76,7 +76,7 @@ It will not work!  So we're just going to delete it for you.\n"
 
         # Check what distro we're on
         case $distro in
-            ubuntu|debian) # Get the package if we're on debian/ubuntu
+            debian) # Get the package if we're on a debian based distro
                 # For Debian & Ubuntu based systems
                 curl -SsL https://playit-cloud.github.io/ppa/key.gpg | sudo apt-key add -
                 sudo curl -SsL -o /etc/apt/sources.list.d/playit-cloud.list https://playit-cloud.github.io/ppa/playit-cloud.list
