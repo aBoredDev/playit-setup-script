@@ -6,6 +6,9 @@
 # service so that it will run in the background and start automatically
 # whenever the computer is started
 
+# Current version of playit
+playit_version="0.9.3"
+
 # Check the device's architechture
 arch=$( uname -m )
 # Check the device's OS, because we can use apt for debian/ubuntu
@@ -89,15 +92,15 @@ It will not work!  So we're just going to delete it for you.\n"
                 printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
                 case $arch in
                     x86_64)
-                        wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3
-                        chmod +x ./playit-0.9.3
-                        name='playit-0.9.3'
+                        wget "https://github.com/playit-cloud/playit-agent/releases/download/v$playit_version/playit-$playit_version"
+                        chmod +x "./playit-$playit_version"
+                        name="playit-$playit_version"
                         playit_path=$( pwd )
                     ;;
                     armv7l)
-                        wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3-armv7
-                        chmod +x ./playit-0.9.3-armv7
-                        name='playit-0.9.3-armv7'
+                        wget https://github.com/playit-cloud/playit-agent/releases/download/v$playit_version/playit-$playit_version-armv7
+                        chmod +x "./playit-$playit_version-armv7"
+                        name="playit-$playit_version-armv7"
                         playit_path=$( pwd )
                     ;;
                 esac
