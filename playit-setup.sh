@@ -73,14 +73,14 @@ It will not work!  So we're just going to delete it for you.\n"
         printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
         case $arch in
             x86_64)
-                wget https://playit.gg/downloads/playit-linux_64-0.4.6
-                chmod +x ./playit-linux_64-0.4.6
-                name='playit-linux_64-0.4.6'
+                wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3
+                chmod +x ./playit-0.9.3
+                name='playit-0.9.3'
             ;;
             armv7l)
-                wget https://playit.gg/downloads/playit-armv7-0.4.6
-                chmod +x ./playit-armv7-0.4.6
-                name='playit-armv7-0.4.6'
+                wget https://github.com/playit-cloud/playit-agent/releases/download/v0.9.3/playit-0.9.3-armv7
+                chmod +x ./playit-0.9.3-armv7
+                name='playit-0.9.3-armv7'
             ;;
         esac
     ;;
