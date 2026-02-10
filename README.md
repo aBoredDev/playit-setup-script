@@ -1,3 +1,5 @@
+# THIS SCRIPT IS OUT OF DATE, PLEASE REFER TO THE OFFICIAL PLAYIT.GG WEBSITE FOR INSTALLATION HELP.
+
 # playit-setup-script
 A script to set up the [playit.gg](https://playit.gg/) tunnel host and install it as a service on Linux.  But why would you even want that?
 - If playit is running as a systemd service, you don't need to worry about restarting it if your machine ever shuts down,  It will start automatically whenever your machine starts up.
@@ -7,22 +9,9 @@ A script to set up the [playit.gg](https://playit.gg/) tunnel host and install i
 
 Even if you don't want it as a service, this script automates installation and ensures that playit is executable, all with a single command!
 
-## Usage
-### Debian/Ubuntu, Raspberry Pi (Raspbian)
-The script doesn't need to be run as root, it will elevate permissions when it needs to.
-```bash
-bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh)
-```
-And that's it!
+## Installation
+Script is out of date, please don't use at this time.
 
-If you just want to install the tunnel host without setting up a service, use the following command:
-```bash
-bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --no-service
-```
-And if you only want to set up a systemd service for playit, you can use
-```bash
-bash <(curl -sS https://raw.githubusercontent.com/aBoredDev/playit-setup-script/main/playit-setup.sh) --service-only
-```
 ## Viewing the tunnel host
 To view the tunnel host once it is running as a service, use the following command:
 ```bash
