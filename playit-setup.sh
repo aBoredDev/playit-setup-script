@@ -85,8 +85,40 @@ It will not work!  So we're just going to delete it for you.\n"
                 sudo curl -SsL -o /etc/apt/sources.list.d/playit-cloud.list https://playit-cloud.github.io/ppa/playit-cloud.list
                 sudo apt update
                 sudo apt install playit
+                sudo apt install screen
                 playit_path="/opt/playit"
                 name="playit"
+            ;;
+            arch)
+                yay=$(whereis yay 2>&1)
+                if [[ "$yay" == "yay:" ]]; then
+                    echo "yay isnt installed"
+                else
+                    echo "yay is installed"
+                    aurhelper="yay"
+                fi
+
+                if [ -z "$aurhelper" ]; then
+                    paru=$(whereis paru 2>&1)
+                    if [[ "$paru" == "paru:" ]]; then
+                        echo "paru isnt installed"
+                        echo "You will need a yay to use this script"
+                        exit
+                    else
+                        echo "paru is installed"
+                        echo "Paru support isnt implemented yet - sorry"
+                        exit 
+                        aurhelper="paru"
+                    fi
+                fi
+
+                echo "Using: "$aurhelper
+                installcommand=$aurhelper" --sudoloop --noconfirm -Sy playit-bin"
+                $installcommand
+                sudo pacman --noconfirm -Sy screen
+                playit_path="/usr/bin/"
+                name="playit"
+
             ;;
             *) # Download the latest binary for the correct architecture if not on debian/ubuntu
                 printf "\n\033[04========m\033[01mDownloading latest binary\033[00m\033[04========\033[00m\n"
@@ -140,8 +172,7 @@ To start the tunnel host again at any time, run './$name'\n"
         # Install screen so that the user can view the output of the playit host
         # we use screen because tmux has caused issues with playit for me in the past
         printf "\n\033[04=====m\033[01mInstalling screen\033[00m\033[04=====\033[00m\n"
-        sudo apt install screen
-
+        # moved the screen install to the debian install section
         printf "\nInstalling service file\n"
         # I know this looks messy, but if I don't do it this way the service file ends up indented
         printf "[Unit]
